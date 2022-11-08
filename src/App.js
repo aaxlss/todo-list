@@ -54,9 +54,17 @@ function App() {
     })
   }
 
-  const completeTodoItem = () => {
-    
+  const completeTodoItem = (indexItem) => {
+    todoItems[indexItem].completed = !todoItems[indexItem].completed    
+    setTodoItems(prev => [...todoItems])
+
   }
+
+  const deleteTodoItem = (todoItem) => {
+    setTodoItems(todoItems.filter(item => item.text.toLocaleLowerCase() != todoItem.text.toLocaleLowerCase()))
+  }
+
+  
   return (
     <React.Fragment>
       <TodoCounter totalComplete = {completedItems} totalItems={totalItems}/>
@@ -64,7 +72,7 @@ function App() {
       setSearchValue={setSearchValue}/>
       <TodoList>
         {searchedItems.map((item, index) => (
-          <TodoItem key={index} text={item.text} completed={item.completed}/>
+          <TodoItem key={index} text={item.text} completed={item.completed} onCompletedClick={ () =>completeTodoItem(index)} onDeleteTodoItem={() => deleteTodoItem(item)}/>
         ))}
       </TodoList>
       <CreateTodoItem addItemTodoList={addItemTodoList}/>
