@@ -9,7 +9,7 @@ import "./App.css";
 const todo = [
   {
     text: "curso ecma",
-    completed: false,
+    completed: true,
   },
   {
     text: "Curso javascript",
@@ -28,7 +28,7 @@ function App() {
       <TodoSearch />
       <TodoList>
         {todo.map((item, index) => (
-          <TodoItem key={index} text={item.text}/>
+          <TodoItem key={index} text={item.text} completed={item.completed}/>
         ))}
       </TodoList>
       <CreateTodoItem />

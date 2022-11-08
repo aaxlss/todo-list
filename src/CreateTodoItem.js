@@ -1,8 +1,8 @@
 import React from "react";
-
+import "./CreateTodoItem.css"
 function CreateTodoItem(){
     return(
-        <button>Add Item</button>
+        <button className="CreateTodoItem">+</button>
     );
 }
 
