@@ -5,9 +5,9 @@ const addNewItem = (text) => {
     alert(`${text}`)
 }
 
-function CreateTodoItem(){
+function CreateTodoItem({addItemTodoList}){
     return(
-        <button className="CreateTodoItem" onClick={()=>addNewItem('Adding new item')}>+</button>
+        <button className="CreateTodoItem" onClick={addItemTodoList}>+</button>
     );
 }
 
