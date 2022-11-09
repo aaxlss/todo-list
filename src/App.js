@@ -6,35 +6,26 @@ import {TodoList} from "./TodoList";
 import {CreateTodoItem} from "./CreateTodoItem";
 import "./App.css";
 
-const defaultTodos = [{
-  text: "curso ecma",
-  completed: true,
-},
-{
-  text: "Curso javascript",
-  completed: false,
-},
-{
-  text: "Curso react",
-  completed: false,
-},
-{
-  text: "Curso react 2",
-  completed: false,
-}
-]
-
 function App() {
 
+  const localStorageTodos = localStorage.getItem('TODOS_V1');
+  let parsedTodos;
+  if(!localStorageTodos){ 
+    localStorage.setItem('TODOS_V1',JSON.stringify([]));
+    parsedTodos = [];
+  } else{
+    parsedTodos = JSON.parse(localStorageTodos);
+  }
+  
   const [searchValue, setSearchValue] = useState('');
-  const [todoItems, setTodoItems] = useState(defaultTodos);
+  const [todoItems, setTodoItems] = useState(parsedTodos);
 
   const completedItems = todoItems.filter(item =>item.completed == true).length;
   const totalItems = todoItems.length;
 
   let searchedItems = [];
   if(searchValue.length >= 1){
-    searchedItems = todoItems.filter(item => {
+    searchedItems = todoItems?.filter(item => {
       const lowerSearch = searchValue.toLocaleLowerCase();
       const lowerItemText = item.text.toLocaleLowerCase();
       return lowerItemText.includes(lowerSearch);
@@ -43,25 +34,32 @@ function App() {
     searchedItems = todoItems;
   }
 
+  const setTodos = (newTodoList) => {
+    localStorage.setItem('TODOS_V1', JSON.stringify(newTodoList))
+    setTodoItems([...newTodoList])
+  }
+
   const addItemTodoList = () => {
-    setTodoItems(prev => {
-      console.log(prev)
-      const newItem = {
-        text: 'new item',
-        completed: false,
-      }
-      return [...prev, newItem]
-    })
+    const newItem = {
+      text: 'new item',
+      completed: false,
+    }
+    parsedTodos.push(newItem);
+    setTodos(parsedTodos)
   }
 
   const completeTodoItem = (indexItem) => {
     todoItems[indexItem].completed = !todoItems[indexItem].completed    
-    setTodoItems(prev => [...todoItems])
+    setTodos(todoItems);
 
   }
 
-  const deleteTodoItem = (todoItem) => {
-    setTodoItems(todoItems.filter(item => item.text.toLocaleLowerCase() != todoItem.text.toLocaleLowerCase()))
+  const deleteTodoItem = (todoIndex) => {
+    // old way to delete an item from the todo list array
+    // setTodoItems(todoItems.filter(item => item.text.toLocaleLowerCase() != todoItem.text.toLocaleLowerCase()))
+    let newTodoItems = todoItems;
+    newTodoItems.splice(todoIndex, 1)
+    setTodos(newTodoItems)
   }
 
   
@@ -72,7 +70,7 @@ function App() {
       setSearchValue={setSearchValue}/>
       <TodoList>
         {searchedItems.map((item, index) => (
-          <TodoItem key={index} text={item.text} completed={item.completed} onCompletedClick={ () =>completeTodoItem(index)} onDeleteTodoItem={() => deleteTodoItem(item)}/>
+          <TodoItem key={index} text={item.text} completed={item.completed} onCompletedClick={ () =>completeTodoItem(index)} onDeleteTodoItem={() => deleteTodoItem(index)}/>
         ))}
       </TodoList>
       <CreateTodoItem addItemTodoList={addItemTodoList}/>
