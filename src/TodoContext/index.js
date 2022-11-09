@@ -60,6 +60,7 @@ function TodoProvider(props) {
         searchedTodos,
         completeTodo,
         deleteTodo,
+        addItemTodoList
       }}
     >
       {props.children}
