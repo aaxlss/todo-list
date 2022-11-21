@@ -10,6 +10,10 @@ import { TodoSearch } from "../TodoSearch";
 import { Modal } from "../Modal";
 import { TodoForm } from "../TodoForm";
 
+const TodosError = () => <p>Error</p>;
+const TodosLoading = () =>  <p>Loading...</p>;
+const TodosEmpty = () => <p>No items in the list</p>;
+
 function App() {
   const {
     loading,
@@ -31,12 +35,14 @@ function App() {
         <TodoCounter totalTodos={totalTodos} completedTodos={completedTodos} />
         <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       </TodoHeader>
-      <TodoList>
-        {error && <p>Error</p>}
-        {loading && <p>Loading...</p>}
-        {!loading && !searchedTodos.length && <p>No items in the list</p>}
-
-        {searchedTodos.map((item, index) => (
+      <TodoList
+        error={error}
+        loading={loading}
+        searchedTodos={searchedTodos}
+        onError={()=><TodosError/>}
+        onLoading={()=><TodosLoading/>}
+        onEmptyTodos={()=><TodosEmpty/>}
+        render={(item, index)=>(
           <TodoItem
             key={index}
             text={item.text}
@@ -44,8 +50,8 @@ function App() {
             onCompletedClick={() => completeTodo(index)}
             onDeleteTodoItem={() => deleteTodo(index)}
           />
-        ))}
-      </TodoList>
+        )}
+      />
       <CreateTodoItem openModal={openModal} setOpenModal={setOpenModal} />
       {openModal && (
         <Modal>
