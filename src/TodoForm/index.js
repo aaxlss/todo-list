@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
-import { TodoContext } from "../TodoContext";
+import React, { useState } from "react";
+
 import "./TodoForm.css";
-function TodoForm() {
+function TodoForm({ setOpenModal, addItemTodoList }) {
   const [textNewTodo, setTextNewTodo] = useState("");
-  const { setOpenModal, addItemTodoList } = useContext(TodoContext);
+  
   const onChange = (event) => {
     setTextNewTodo(event.target.value);
   };
