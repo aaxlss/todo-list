@@ -13,6 +13,7 @@ import { TodoForm } from "../TodoForm";
 const TodosError = () => <p>Error</p>;
 const TodosLoading = () =>  <p>Loading...</p>;
 const TodosEmpty = () => <p>No items in the list</p>;
+const TodosSearchedEmpty = (searchedText) => <p>No items found for {searchedText}</p> 
 
 function App() {
   const {
@@ -39,9 +40,12 @@ function App() {
         error={error}
         loading={loading}
         searchedTodos={searchedTodos}
+        searchText={searchValue}
+        totalTodos={totalTodos}
         onError={()=><TodosError/>}
         onLoading={()=><TodosLoading/>}
         onEmptyTodos={()=><TodosEmpty/>}
+        onEmptySearchedTodos = {(text) =>TodosSearchedEmpty(text)}
         render={(item, index)=>(
           <TodoItem
             key={index}
