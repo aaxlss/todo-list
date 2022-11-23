@@ -9,7 +9,7 @@ import { TodoList } from "../TodoList";
 import { TodoSearch } from "../TodoSearch";
 import { Modal } from "../Modal";
 import { TodoForm } from "../TodoForm";
-import { ChangeAlertWithStorageListener } from "../ChangeAlert";
+import { ChangeAlert  } from "../ChangeAlert";
 
 const TodosError = () => <p>Error</p>;
 const TodosLoading = () =>  <p>Loading...</p>;
@@ -61,7 +61,7 @@ function App() {
         )}
       />
       <CreateTodoItem openModal={openModal} setOpenModal={setOpenModal} />
-      <ChangeAlertWithStorageListener
+      <ChangeAlert 
       synchronize={synchronizeItem}
       />
       {openModal && (
